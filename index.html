@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" /> -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
+    <title>Weather Dashboard</title>
+  </head>
+
+  <body>
+    <header class="row just-cent">
+      <h1>Weather Dashboard</h1>
+    </header>
+
+    <section id="main" class="main">
+      <div class="search-wrapper column">
+        <h2>Search for a City</h2>
+        <input class="user-input" type="text" placeholder="London" />
+        <button class="search">Search</button>
+        <hr />
+        <div class="history column">
+          <button>prev City</button>
+          <button>prev City</button>
+          <button>prev City</button>
+          <button>prev City</button>
+          <button>prev City</button>
+          <button>prev City</button>
+        </div>
+      </div>
+      <div class="forecast-wrapper">
+        <div class="today-weather">
+          <li><h3>London</h3></li>
+          <li>Temp</li>
+          <li>Wind</li>
+          <li>Humidity</li>
+        </div>
+        <h4>5-Day forecast:</h4>
+        <div class="five-day-forecast-wrapper row">
+          <div class="day-weather-card">
+            <li><h3>London</h3></li>
+            <li>img</li>
+            <li>Temp</li>
+            <li>Wind</li>
+            <li>Humidity</li>
+          </div>
+          <div class="day-weather-card">
+            <li><h3>London</h3></li>
+            <li>img</li>
+            <li>Temp</li>
+            <li>Wind</li>
+            <li>Humidity</li>
+          </div>
+          <div class="day-weather-card">
+            <li><h3>London</h3></li>
+            <li>img</li>
+            <li>Temp</li>
+            <li>Wind</li>
+            <li>Humidity</li>
+          </div>
+          <div class="day-weather-card">
+            <li><h3>London</h3></li>
+            <li>img</li>
+            <li>Temp</li>
+            <li>Wind</li>
+            <li>Humidity</li>
+          </div>
+          <div class="day-weather-card">
+            <li><h3>London</h3></li>
+            <li>img</li>
+            <li>Temp</li>
+            <li>Wind</li>
+            <li>Humidity</li>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
