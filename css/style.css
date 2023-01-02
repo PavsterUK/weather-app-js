@@ -94,7 +94,7 @@ button.search:hover {
 }
 
 .today-weather {
-  padding: 0.5rem 0 0 0;
+  padding: 0.5rem 0 0 .5rem;
   border: 1px solid grey;
   border-radius: 3px;
   margin-bottom: 1rem;
@@ -120,6 +120,7 @@ button.search:hover {
   color: aliceblue;
   font-size: 1rem;
   padding: 0.5rem 0 0.5rem 0.5rem;
+  border-radius: 3px;
 }
 
 .day-weather-card li {
