@@ -93,14 +93,14 @@ button.search:hover {
   padding-right: 1rem;
 }
 
-.today-weather {
+.weather-now {
   padding: 0.5rem 0 0 .5rem;
   border: 1px solid grey;
   border-radius: 3px;
   margin-bottom: 1rem;
 }
 
-.today-weather li {
+.weather-now li {
   margin-bottom: 1rem;
 }
 
