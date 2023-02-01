@@ -17,16 +17,21 @@
     <section id="main" class="main">
       <div class="search-wrapper column">
         <h2>Search for a City</h2>
-        <input class="user-input" type="text" placeholder="London" />
-        <button class="search">Search</button>
+        <input
+          id="user-input"
+          class="user-input"
+          type="text"
+          placeholder="London"
+        />
+        <button
+          class="search"
+          onclick="onSearchButtonClickEventHandler(event) "
+        >
+          Search
+        </button>
         <hr />
-        <div class="history column">
-          <button>prev City</button>
-          <button>prev City</button>
-          <button>prev City</button>
-          <button>prev City</button>
-          <button>prev City</button>
-          <button>prev City</button>
+        <div id="history" class="history column">
+          <!-- Previous serches injected here -->
         </div>
       </div>
       <div class="forecast-wrapper">
