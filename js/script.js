@@ -23,19 +23,32 @@ async function getFiveDaysForecast(coords) {
     const response = await fetch(url);
     const data = await response.json();
     let forecasts = [];
+    const today = moment().format("DDD");
 
     //Only show forecast for one hour every 24 hours from request time.
-    for (let i = 0; i < data.list.length; i += 8) {
-      forecasts.push(data.list[i]);
+    for (let i = 0; i < data.list.length; i++) {
+      if (
+        moment(data.list[i].dt_txt).format("DDD") > today &&
+        moment(data.list[i].dt_txt).format("hh:mm A") === "12:00 PM"
+      ) {
+        forecasts.push(data.list[i]);
+      }
     }
     return forecasts;
   }
 }
 
-function getDayWeatherMarkup(weatherData, placeInfoMarkup = "") {
+const getWeatherIcon = (weatherConditionCode) => {
+  return `http://openweathermap.org/img/wn/${weatherConditionCode}@2x.png`;
+};
+
+function getDayWeatherMarkup(weatherData) {
+  const weatherIconUrl = getWeatherIcon(weatherData.weather[0].icon);
+  const dateNow = moment(weatherData.dt_txt).format("dddd, MMMM Do YYYY");
   const markup = `
   <div class="day-weather-card">
-    ${placeInfoMarkup}
+    <li>${dateNow}</li>
+    <img src="${weatherIconUrl}" />
     <li>Temp: ${weatherData.main.temp} C</li>
     <li>Wind: ${weatherData.wind.speed} KM/H</li>
     <li>Humidity: ${weatherData.main.humidity} %</li>
@@ -43,16 +56,8 @@ function getDayWeatherMarkup(weatherData, placeInfoMarkup = "") {
   return markup;
 }
 
-const _unixToDate = (unixStamp) => {
-  return moment.unix(unixStamp).format("dddd, Do MMM YYYY");
-};
-
 function renderTodayWeather(weatherData) {
-  const placeName = weatherData.name;
-  const dateNow = _unixToDate(weatherData.dt);
-  const placeInfoMarkup = `<li><h3>${placeName} (${dateNow})</h3></li>`;
-
-  weatherNow.html(getDayWeatherMarkup(weatherData, placeInfoMarkup));
+  weatherNow.html(getDayWeatherMarkup(weatherData));
 }
 
 function renderFiveDaysForecast(weatherData) {
@@ -88,10 +93,7 @@ function init(placeName) {
 }
 
 function syncLocalStorage(placeName) {
-  if (!localStorage.getItem("placeName")) {
-    localStorage.setItem("placeName", JSON.stringify([]));
-  }
-  const places = JSON.parse(localStorage.getItem("placeName"));
+  const places = JSON.parse(localStorage.getItem("placeName")) || [];
   const placeButtonMarkup = `
     <button onclick="onSearchButtonClickEventHandler(event)">
       ${placeName}
