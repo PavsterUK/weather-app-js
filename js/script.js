@@ -39,7 +39,7 @@ async function getFiveDaysForecast(coords) {
 }
 
 const getWeatherIcon = (weatherConditionCode) => {
-  return `http://openweathermap.org/img/wn/${weatherConditionCode}@2x.png`;
+  return `https://openweathermap.org/img/wn/${weatherConditionCode}@2x.png`;
 };
 
 function getDayWeatherMarkup(weatherData, placeName) {
