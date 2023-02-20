@@ -42,11 +42,12 @@ const getWeatherIcon = (weatherConditionCode) => {
   return `http://openweathermap.org/img/wn/${weatherConditionCode}@2x.png`;
 };
 
-function getDayWeatherMarkup(weatherData) {
+function getDayWeatherMarkup(weatherData, placeName) {
   const weatherIconUrl = getWeatherIcon(weatherData.weather[0].icon);
   const dateNow = moment(weatherData.dt_txt).format("dddd, MMMM Do YYYY");
   const markup = `
   <div class="day-weather-card">
+    <h3>${placeName ? placeName : ""}</h3>
     <li>${dateNow}</li>
     <img src="${weatherIconUrl}" />
     <li>Temp: ${weatherData.main.temp} C</li>
@@ -56,8 +57,8 @@ function getDayWeatherMarkup(weatherData) {
   return markup;
 }
 
-function renderTodayWeather(weatherData) {
-  weatherNow.html(getDayWeatherMarkup(weatherData));
+function renderTodayWeather(weatherData, placeName) {
+  weatherNow.html(getDayWeatherMarkup(weatherData, placeName));
 }
 
 function renderFiveDaysForecast(weatherData) {
@@ -76,14 +77,13 @@ function getFiveDaysForecastMarkup(weatherData) {
 
 function onSearchButtonClickEventHandler() {
   const placeName = $("#user-input").val();
-  init(placeName);
+  getWeatherSyncLocStorage(placeName);
 }
 
-function init(placeName) {
-  syncLocalStorage(placeName);
+function getWeatherData(placeName) {
   getPlaceCoords(placeName).then((coords) => {
     getTodayWeather(coords).then((todayWeatherData) => {
-      renderTodayWeather(todayWeatherData);
+      renderTodayWeather(todayWeatherData, placeName);
     });
 
     getFiveDaysForecast(coords).then((fiveDayWeatherData) => {
@@ -92,15 +92,33 @@ function init(placeName) {
   });
 }
 
-function syncLocalStorage(placeName) {
-  const places = JSON.parse(localStorage.getItem("placeName")) || [];
-  const placeButtonMarkup = `
-    <button onclick="onSearchButtonClickEventHandler(event)">
-      ${placeName}
-    </button>`;
-  places.push(placeButtonMarkup);
-  localStorage.setItem("placeName", JSON.stringify(places));
-  searchHistory.html(places);
+function getWeatherSyncLocStorage(placeName) {
+  getWeatherData(placeName);
+  syncLocalStorage(placeName);
 }
 
-init("London");
+function syncLocalStorage(placeName) {
+  const storedData = JSON.parse(localStorage.getItem("placeName")) || {};
+  const places = new Map(Object.entries(storedData));
+
+  if (placeName && !places.has(placeName)) {
+    const placeButtonMarkup = `
+    <button onclick="getWeatherSyncLocStorage('${placeName}')">
+      ${placeName}
+    </button>`;
+    places.set(placeName, placeButtonMarkup);
+    localStorage.setItem(
+      "placeName",
+      JSON.stringify(Object.fromEntries(places))
+    );
+  }
+
+  searchHistory.html([...places.values()].join(""));
+}
+
+function init() {
+  getWeatherData("London");
+  syncLocalStorage();
+}
+
+init();
